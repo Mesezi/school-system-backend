@@ -1,90 +1,70 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const schoolSchema = new mongoose.Schema({
+const schoolAnnouncementSchema = new mongoose.Schema({
+  id: String,
+  message: String,
+  sender: String,
+},{
+  timestamps: true,
+});
+
+
+const schoolSubjectsSchema = new mongoose.Schema({
+    primary: [String],
+    juniorSecondary: [String],
+    seniorSecondary: [String]
+});
+
+const schoolCalendarSchema = new mongoose.Schema({
+  id: String,
+  startDate: Date,
+  endDate: Date,
+  event: String,
+});
+
+const schoolSessionAndTermSchema = new mongoose.Schema({
+  session: String,
+  term: String,
+  termEndDate: Date,
+});
+
+const schoolSchema = new mongoose.Schema(
+  {
     id: {
-        type: String,
-        required: [true],
+      type: String,
+      required: [true],
     },
     schoolName: {
-        type: String,
-        required: [true],
+      type: String,
+      required: [true],
     },
-    schoolShortName: {
-        type: String,
-        default: ''
-      },
-      schoolAddress: {
-        type: String,
-        default: ''
-      },
-      schoolLogo: {
-        type: String,
-        default: ''
-      },
-      schoolEmail: {
-        type: String,
-        default: ''
-      },
-      schoolColor: {
-        type: String,
-        default: ''
-      },
+    schoolInformation: {
+      schoolShortName: String,
+      schoolAddress: String,
+      schoolLogo: String,
+      schoolEmail: String,
+      schoolColor: String,
       schoolGradingSystem: {
-        test: {
-            type: String,
-            default: ''
-          },
-          exam: {
-            type: String,
-            default: ''
-          },
+        test1: Number,
+        test2: Number,
+        exam: Number,
       },
-      studentPerformanceTable: {
-        type: mongoose.Schema.Types.Mixed,
-        default: []
-      },
-      schoolNotification: {
-        type: mongoose.Schema.Types.Mixed,
-        default: []
-      },
-      schoolCalendar: {
-        type: mongoose.Schema.Types.Mixed,
-        default: {}
-      },
-      schoolTimetable: {
-        type: mongoose.Schema.Types.Mixed,
-        default: []
-      },
-      schoolExamTimetable: {
-        type: mongoose.Schema.Types.Mixed,
-        default: []
-      },
-      schoolSessionAndTerm: {
-        session: {
-          type: String,
-          default: ''
-        },
-        term: {
-          type: String,
-          default: ''
-        },
-        termEndDate: {
-          type: Date,
-          default: ''
-        }
-      },
-      schoolSubjects: {
-        primary: [String],
-        "juniorSecondary": [String],
-        "seniorSecondary": [String]
-      }
+      studentPerformanceTable: mongoose.Schema.Types.Mixed,
+    },
+    schoolSessionAndTerm: schoolSessionAndTermSchema,
+    schoolCalendar: [schoolCalendarSchema],
+    schoolTimetables: {
+      schoolTimetable: mongoose.Schema.Types.Mixed,
+      schoolExamTimetable: mongoose.Schema.Types.Mixed,
+    },
+    schoolAnnouncements: [schoolAnnouncementSchema],
+    schoolSubjects: schoolSubjectsSchema
+  },
+  {
+    timestamps: true,
+  }
+);
 
+const SchoolModel = mongoose.model("schools", schoolSchema);
 
-
-},  {
-        timestamps: true,
-    })
-
-const SchoolModel = mongoose.model('schools', schoolSchema);
-
-export default SchoolModel
+export default SchoolModel;
