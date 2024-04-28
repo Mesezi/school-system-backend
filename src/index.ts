@@ -3,16 +3,14 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import routes from './routes/routes';
 import http from 'http';
-require("dotenv").config()
-const { Server } = require("socket.io");
+import 'dotenv/config'
+import { Server } from "socket.io";
 
 const app = express()
   
 app.use(cors())
 app.use(express.json());
 app.use('/api', routes)
-//@ts-ignore
-app.io = io;
 
 const server = http.createServer(app);
 export const io = new Server(server, {
