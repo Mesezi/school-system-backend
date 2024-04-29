@@ -8,7 +8,8 @@ export const addSchoolAnnouncement = asyncHandler(async (req:any, res:any) => {
   const data = req.body
   const schoolId = req.headers['x-school-id'];
   const socket = req.app.get('io');
-  socket.emit('notification', 'hi');
+  socket.to(`schoolId_${schoolId}`).emit("some event");
+  // socket.emit('notification', 'hi');
 
   if (
     typeof data.message !== "string" ||
