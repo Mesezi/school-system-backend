@@ -9,7 +9,7 @@ export const updateSchoolInformation = asyncHandler(async (req:any, res:any) => 
   //Destructuing the inputs from req.body
   const { id } = req.params;
   const updateData = req.body;
-  const schoolId = req.headers["x-school-id"];
+  const schoolId = req.userData.schoolId;
 
   if (!schoolId) {
     return res.status(404).json({ message: "School id not found" });

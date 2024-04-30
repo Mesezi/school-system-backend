@@ -6,10 +6,10 @@ import SchoolModel from "../../../models/schoolModel";
 export const addSchoolAnnouncement = asyncHandler(async (req:any, res:any) => {
 
   const data = req.body
-  const schoolId = req.headers['x-school-id'];
-  const socket = req.app.get('io');
-  socket.to(`schoolId_${schoolId}`).emit("some event");
-  // socket.emit('notification', 'hi');
+  const schoolId = req.userData.schoolId;
+  const io = req.app.get('io');
+ 
+
 
   if (
     typeof data.message !== "string" ||
@@ -32,6 +32,8 @@ export const addSchoolAnnouncement = asyncHandler(async (req:any, res:any) => {
       { id: schoolId }, // Query to find the document
       { $push: { 'schoolAnnouncements': newAnnouncement } }
     );
+
+    io.in(`schoolId_${schoolId}`).emit("notification", 'new school notification')
 
     res.status(200).json({
         success: true,

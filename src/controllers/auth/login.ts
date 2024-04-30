@@ -9,25 +9,12 @@ import { io } from "../..";
 
 export const login = asyncHandler(async (req: any, res: any) => {
   //Destructing the inputs from req.body
-  const { email, password, type } = req.body;
-
-  console.log('hi')
+  const { email, password, userType } = req.body;
   // io.broadcast.emit('joinRoom', { schoolId:'testt' })
   try {
-    let user;
-    if (type === "superAdmin") {
-      user = await AdminUserModel.findOne({
-        email: email,
-      });
-    } else if (type === "student") {
-      return res.status(401).json({
-        message: "Incorrect account type",
-      });
-    } else if (type === "classTeacher") {
-      return res.status(401).json({
-        message: "Incorrect account type",
-      });
-    }
+    let user = await AdminUserModel.findOne({
+      email: email,
+    });
 
     if (!user) {
       //if user does not exist responding Authentication Failed
@@ -47,6 +34,8 @@ export const login = asyncHandler(async (req: any, res: any) => {
         {
           email: user.email,
           userId: user.id,
+          schoolId: user.schoolId,
+          userType
         },
         //Signign the token with the JWT_SECRET in the .env
         process.env.JWT_SECRET ?? "",

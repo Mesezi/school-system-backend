@@ -9,6 +9,7 @@ export const updateSchoolDetails = asyncHandler(async (req:any, res:any) => {
   //Destructuing the inputs from req.body
   const { id } = req.params;
   const updateData = req.body;
+  const schoolId = req.userData.schoolId;
 
   try {
     // Update the school document by its ID

@@ -4,7 +4,7 @@ import SchoolModel from "../../../models/schoolModel";
 export const deleteSchoolAnnouncement = asyncHandler(
   async (req: any, res: any) => {
     const { id } = req.params;
-    const schoolId = req.headers["x-school-id"];
+    const schoolId = req.userData.schoolId;
 
     if (!schoolId) {
       return res.status(404).json({ message: "School id not found" });
@@ -16,10 +16,7 @@ export const deleteSchoolAnnouncement = asyncHandler(
         { id: schoolId },
         { $pull: { schoolAnnouncements: { id } } }
       );
-
-      console.log(result)
-
-      
+  
     res.status(200).json({
         success: true,
         message: 'Announcement deleted',
