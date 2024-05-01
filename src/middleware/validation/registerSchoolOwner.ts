@@ -10,6 +10,7 @@ const validator = async (body: any, rules: Validator.Rules, customMessages: Vali
     const validateRule = {
         "firstName": "required|string|min:3", 
         "lastName": "required|string|min:3", 
+        "role": "required|string|min:3", 
         "schoolName": "required|string|min:3", 
         "email": "required|email", 
         "password":"required|min:6",

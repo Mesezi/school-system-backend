@@ -5,20 +5,13 @@ import asyncHandler from "express-async-handler";
 import { v4 as uuidv4 } from "uuid";
 
 
-export const register = asyncHandler(async (req:any, res:any) => {
+export const createClassController = asyncHandler(async (req:any, res:any) => {
   //Destructuing the inputs from req.body
   const { firstName, lastName, schoolName, 
-     email, password, phoneNumber, role } = req.body;
+     email, password, phoneNumber } = req.body;
 
-  //Verifying the email address inputed is not used already
-  const verifyEmail = await AdminUserModel.findOne({ email: email });
-  try {
-    if (verifyEmail) {
-      return res.status(403).json({
-        message: "Email already used",
-      });
-    } else {
-      //generating userId
+
+  
       try {
         const userId = uuidv4();
         const schoolId = uuidv4();
@@ -32,8 +25,7 @@ export const register = asyncHandler(async (req:any, res:any) => {
           email: email,
           password: hashedPassword,
           phoneNumber: phoneNumber,
-          accountType: 'superAdmin',
-          role: role,
+          accountType: 'class',
           schoolId
         });
 
@@ -59,12 +51,7 @@ export const register = asyncHandler(async (req:any, res:any) => {
           error: err,
         });
       }
-    }
-  } catch (error:any) {
-    return res.status(412).send({
-      success: false,
-      message: error.message,
-    });
-  }
+    
+ 
 });
 

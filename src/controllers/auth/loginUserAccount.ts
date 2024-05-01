@@ -1,19 +1,16 @@
-import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { AdminUserModel } from "../../models/userModel";
-import SchoolModel from "../../models/schoolModel";
 import asyncHandler from "express-async-handler";
-import { v4 as uuidv4 } from "uuid";
-import { io } from "../..";
+import encryptText from "../../lib/encryptText";
 
-export const login = asyncHandler(async (req: any, res: any) => {
+export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
   //Destructing the inputs from req.body
-  const { email, password, userType } = req.body;
-  // io.broadcast.emit('joinRoom', { schoolId:'testt' })
+  const { email, password } = req.body;
+
   try {
     let user = await AdminUserModel.findOne({
-      email: email,
+      email
     });
 
     if (!user) {
@@ -23,11 +20,16 @@ export const login = asyncHandler(async (req: any, res: any) => {
       });
     }
 
-    const checkPassword = await bcrypt.compare(password, user.password);
+    if(user.accountType === 'admin' || user.accountType === 'class'){
+      return res.status(401).json({
+        message: "Wrong account type",
+      });
+    }
 
+    const checkPassword = await bcrypt.compare(password, user.password) 
     if (!checkPassword) {
       return res.status(401).json({
-        message: "Incorrect username or password",
+        message: "Incorrect password",
       });
     } else {
       let jwtToken = jwt.sign(
@@ -35,13 +37,13 @@ export const login = asyncHandler(async (req: any, res: any) => {
           email: user.email,
           userId: user.id,
           schoolId: user.schoolId,
-          userType
+          accountType: user.accountType
         },
         //Signign the token with the JWT_SECRET in the .env
         process.env.JWT_SECRET ?? "",
-        {
-          expiresIn: "1h",
-        }
+        // {
+        //   expiresIn: "1h",
+        // }
       );
  // Emit joinRoom event with user ID and type
       return res.status(200).json({

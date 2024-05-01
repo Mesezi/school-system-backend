@@ -12,9 +12,9 @@ const adminUserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter first name"],
     },
-    userType: {
+    accountType: {
         type: String,
-        required: [true, "Please add user type"],
+        required: [true, "Please add account type"],
     },
     email: {
         type: String,
@@ -31,6 +31,10 @@ const adminUserSchema = new mongoose.Schema({
     schoolId: {
         type: String,
         required: [true, "Please add school id"],
+    },
+    role: {
+        type: String,
+        required: [true, "Please add role"],
     },
 },  {
         timestamps: true,

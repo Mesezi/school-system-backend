@@ -6,7 +6,7 @@ const authMiddleware = (req:any, res:any, next:any) => {
     const decoded = jwt.verify(token,  process.env.JWT_SECRET ?? "");
     req.userData = decoded;
     //@ts-ignore
-//    console.log(decoded.userType)
+//    console.log(decoded.accountType)
     next();
   } catch (err) {
     return res.status(401).json({
