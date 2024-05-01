@@ -20,7 +20,7 @@ router.post("/user/login", (req, res, next)=>loginValidation(req,res,next, 'user
 router.post("/school/login",  (req, res, next)=>loginValidation(req,res,next, 'school'), loginSchoolAccount);
 
 router.post("/class/create", authMiddleware, createClassController);
-router.post("/class/delete/:id", authMiddleware, deleteClassController);
+router.delete("/class/delete/:id", authMiddleware, deleteClassController);
 
 router.post("/school/schoolAnnouncement/add", authMiddleware, addSchoolAnnouncement);
 router.delete("/school/schoolAnnouncement/delete/:id", authMiddleware, deleteSchoolAnnouncement);

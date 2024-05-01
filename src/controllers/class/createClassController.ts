@@ -15,7 +15,7 @@ export const createClassController = asyncHandler(
 
     try {
       const verifyUserName = await ClassModel.findOne({
-        username: data.userName,
+        userName: data.userName,
       });
 
       if (verifyUserName) {
