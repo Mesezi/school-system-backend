@@ -14,7 +14,7 @@ export const createClassController = asyncHandler(
     const schoolId = req.userData.schoolId;
 
     try {
-      const verifyUserName = await AdminUserModel.findOne({
+      const verifyUserName = await ClassModel.findOne({
         username: data.userName,
       });
 
