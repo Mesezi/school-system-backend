@@ -16,6 +16,20 @@ const classSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please add a username"],
     },
+    type: {
+        type: String,  
+        enum: ['Primary', 'Junior Secondary', 'Senior Secondary'],
+        required: [true, "Please add a class type"],
+    },
+    level : {
+        type: String,
+        required: [true, "Please add a username"],
+    },
+    name: {
+        type: String,
+        required: [true, "Please add a class name"],
+    },
+    
     teacherInformation: {
         firstName: String,
         lastName: String,
@@ -35,12 +49,15 @@ const classSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please add school id"],
     },
-    subjects: [String],
+    subjects: {
+        type: [String],
+        required: [true, "Please add school id"],
+    } ,
     classMessages: [classMessagesSchema]
 },  {
         timestamps: true,
     })
    
    
-export const SchoolModel = mongoose.model("class", classSchema);
+export const ClassModel = mongoose.model("class", classSchema);
 
