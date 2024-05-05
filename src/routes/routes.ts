@@ -13,21 +13,26 @@ import authMiddleware from "../middleware/validation/authMiddleware";
 import { loginSchoolAccount } from "../controllers/auth/loginSchoolAccount";
 import { createClassController } from "../controllers/class/createClassController";
 import { deleteClassController } from "../controllers/class/deleteClassController";
+import { getSchoolDetails } from "../controllers/school/getSchoolDetails";
+import { getAllClasses } from "../controllers/class/getAllClasses";
 const router = express.Router();
 
 router.post("/register", registerSchoolOwner, register);
 router.post("/user/login", (req, res, next)=>loginValidation(req,res,next, 'user'), loginUserAccount);
 router.post("/school/login",  (req, res, next)=>loginValidation(req,res,next, 'school'), loginSchoolAccount);
 
+
+router.get("/class/all", authMiddleware, getAllClasses);
 router.post("/class/create", authMiddleware, createClassController);
 router.delete("/class/delete/:id", authMiddleware, deleteClassController);
 
+
+router.get("/school/details", authMiddleware, getSchoolDetails);
 router.post("/school/schoolAnnouncement/add", authMiddleware, addSchoolAnnouncement);
 router.delete("/school/schoolAnnouncement/delete/:id", authMiddleware, deleteSchoolAnnouncement);
 router.post("/school/calendar",authMiddleware, updateSchoolCalendar);
 router.post("/school/information",authMiddleware, updateSchoolInformation);
 router.post("/school/subjects",authMiddleware, updateSchoolSubjects);
 router.post("/school/sessionAndTerm",authMiddleware, updateSchoolSessionAndTerm);
-
 
 export default router;

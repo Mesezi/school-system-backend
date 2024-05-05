@@ -26,6 +26,7 @@ export const deleteClassController = asyncHandler(async (req:any, res:any) => {
       success: true,
       deletedClass: deletedClass,
     });
+    
   } catch (err) {
     res.status(500).json({
       error: err,

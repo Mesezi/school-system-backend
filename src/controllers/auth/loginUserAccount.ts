@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { AdminUserModel } from "../../models/userModel";
 import asyncHandler from "express-async-handler";
 import encryptText from "../../lib/encryptText";
+import { removeKeys } from "../../util/removeKeys";
 
 export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
   //Destructing the inputs from req.body
@@ -25,8 +26,10 @@ export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
         message: "Wrong account type",
       });
     }
+    
 
     const checkPassword = await bcrypt.compare(password, user.password) 
+
     if (!checkPassword) {
       return res.status(401).json({
         message: "Incorrect password",
@@ -45,10 +48,13 @@ export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
         //   expiresIn: "1h",
         // }
       );
- // Emit joinRoom event with user ID and type
+
+      let userData = await AdminUserModel.findOne({ email }).select('-password -__v -_id');
+
+
       return res.status(200).json({
         accessToken: jwtToken,
-        user: user,
+        user: userData,
       });
     }
   } catch (err: any) {

@@ -5,23 +5,27 @@ import asyncHandler from "express-async-handler";
 import { v4 as uuidv4 } from "uuid";
 
 
-export const updateSchoolDetails = asyncHandler(async (req:any, res:any) => {
+export const getSchoolDetails = asyncHandler(async (req:any, res:any) => {
   //Destructuing the inputs from req.body
-  const { id } = req.params;
   const updateData = req.body;
   const schoolId = req.userData.schoolId;
 
   try {
     // Update the school document by its ID
-    const updatedSchool = await SchoolModel.findOneAndUpdate({ id }, updateData, { new: true });
+    const school = await SchoolModel.findOne({ id:schoolId });
 
-    if (!updatedSchool) {
+    if (!school) {
       return res.status(404).json({ message: 'School not found' });
     }
 
-    res.status(200).json(updatedSchool);
+
+    res.status(200).json({
+        message: 'Success',
+        data:school
+    });
+    
   } catch (error) {
-    console.error('Error updating school:', error);
+    console.error('Error finding school:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
