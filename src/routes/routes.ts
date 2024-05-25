@@ -15,6 +15,10 @@ import { createClassController } from "../controllers/class/createClassControlle
 import { deleteClassController } from "../controllers/class/deleteClassController";
 import { getSchoolDetails } from "../controllers/school/getSchoolDetails";
 import { getAllClasses } from "../controllers/class/getAllClasses";
+import { getClassInformationController } from "../controllers/class/getClassInformationController";
+import { addStudentController } from "../controllers/student/addStudentController";
+import { updateClassSubjects } from "../controllers/class/updateClassSubjectsController";
+import { updateClassTimetable } from "../controllers/class/updateClassTimetableController";
 const router = express.Router();
 
 router.post("/register", registerSchoolOwner, register);
@@ -25,7 +29,9 @@ router.post("/school/login",  (req, res, next)=>loginValidation(req,res,next, 's
 router.get("/class/all", authMiddleware, getAllClasses);
 router.post("/class/create", authMiddleware, createClassController);
 router.delete("/class/delete/:id", authMiddleware, deleteClassController);
-
+router.get("/class/:id", authMiddleware, getClassInformationController);
+router.post("/class/update-subjects/:classId", authMiddleware, updateClassSubjects);
+router.post("/class/update-timetable/:classId", authMiddleware, updateClassTimetable);
 
 router.get("/school/details", authMiddleware, getSchoolDetails);
 router.post("/school/schoolAnnouncement/add", authMiddleware, addSchoolAnnouncement);
@@ -35,4 +41,6 @@ router.post("/school/information",authMiddleware, updateSchoolInformation);
 router.post("/school/subjects",authMiddleware, updateSchoolSubjects);
 router.post("/school/sessionAndTerm",authMiddleware, updateSchoolSessionAndTerm);
 
+
+router.post("/student/add", authMiddleware, addStudentController);
 export default router;
