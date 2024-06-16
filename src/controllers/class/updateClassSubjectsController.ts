@@ -18,14 +18,6 @@ export const updateClassSubjects = asyncHandler(async (req:any, res:any) => {
  if (!schoolId) {
    return res.status(404).json({ message: "School id not found" });
  }
-
- const validate = updateData.every((element:any) => typeof element === 'string');
- if(!validate){
-    return res.status(400).json({
-        success: false,
-        message: `Invalid subject type, all subjects must be a string`
-      });
- }
  
  try {
    // Update the school document by its ID

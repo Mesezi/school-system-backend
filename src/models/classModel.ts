@@ -49,7 +49,7 @@ const classSchema = new mongoose.Schema({
     required: [true, "Please add school id"],
   },
   subjects: {
-    type: [String],
+    type: mongoose.Schema.Types.Mixed,
     required: [true, "Please add class subjects"],
   },
   classMessages: [classMessagesSchema],

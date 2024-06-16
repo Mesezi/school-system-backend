@@ -50,9 +50,9 @@ export const updateSchoolSubjects = asyncHandler(async (req:any, res:any) => {
      success: true,
      message: 'Updated school subjects',
    });
- } catch (error) {
+ } catch (error:any) {
    console.error('Error updating school:', error);
-   res.status(500).json({ message: 'Internal server error' });
+   res.status(500).json({ message: 'Internal server error',  error: error.message });
  }
 
 });

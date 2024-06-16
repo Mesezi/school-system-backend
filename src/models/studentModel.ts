@@ -21,6 +21,15 @@ const StudentSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  accountType: {
+    type: String,
+    required: true,
+  },
   password: {
     type: String,
     required: true,
@@ -36,11 +45,11 @@ const StudentSchema = new mongoose.Schema({
     type: String,
   },
   firstName: {
-    type: Date,
+    type: String,
     required: true,
   },
   lastName: {
-    type: Date,
+    type: String,
     required: true,
   },
   dob: {
@@ -54,11 +63,6 @@ const StudentSchema = new mongoose.Schema({
   },
   parentGuardian: {
     type: ParentGuardianSchema,
-    required: true,
-  },
-  dateJoined: {
-    type: Date,
-    default: Date.now,
   },
 }, {
   timestamps: true, // This will add createdAt and updatedAt timestamps

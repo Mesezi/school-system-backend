@@ -19,6 +19,10 @@ import { getClassInformationController } from "../controllers/class/getClassInfo
 import { addStudentController } from "../controllers/student/addStudentController";
 import { updateClassSubjects } from "../controllers/class/updateClassSubjectsController";
 import { updateClassTimetable } from "../controllers/class/updateClassTimetableController";
+import { getStudentDetailsController } from "../controllers/student/getStudentDetailsController";
+import { updateStudentDetailsController } from "../controllers/student/updateStudentDetailsController";
+import { createStudentResult } from "../controllers/result/createStudentResult";
+import { updateStudentTermResult } from "../controllers/result/updateStudentTermResult";
 const router = express.Router();
 
 router.post("/register", registerSchoolOwner, register);
@@ -43,4 +47,11 @@ router.post("/school/sessionAndTerm",authMiddleware, updateSchoolSessionAndTerm)
 
 
 router.post("/student/add", authMiddleware, addStudentController);
+router.get("/student/:studentId", authMiddleware, getStudentDetailsController);
+router.post("/student/result/create/:studentId", authMiddleware, createStudentResult);
+router.put("/student/result/update/:studentId", authMiddleware, updateStudentTermResult);
+router.delete("/student/result/delete/:studentId", authMiddleware, getStudentDetailsController);
+router.delete("/student/delete/:studentId", authMiddleware, getStudentDetailsController);
+router.put("/student/update/:studentId", authMiddleware, updateStudentDetailsController);
+
 export default router;
