@@ -1,10 +1,5 @@
-import bcrypt from "bcryptjs";
-import { AdminUserModel } from "../../models/userModel";
-import SchoolModel from "../../models/schoolModel";
 import asyncHandler from "express-async-handler";
 import { v4 as uuidv4 } from "uuid";
-import encryptText from "../../lib/encryptText";
-import { generateRandomString } from "../../util/generateRandomString";
 import { ClassModel } from "../../models/classModel";
 
 export const createClassController = asyncHandler(
@@ -20,7 +15,7 @@ export const createClassController = asyncHandler(
 
       if (verifyUserName) {
         return res.status(403).json({
-          message: "Username already used",
+          message: "Username already exists",
         });
       }
       const classId = uuidv4();
