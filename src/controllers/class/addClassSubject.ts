@@ -15,7 +15,7 @@ export const addSubjectController = asyncHandler(async (req: any, res: any) => {
       }
   
     if (!name) {
-      return res.status(400).json({ message: 'Subject title is required' });
+      return res.status(400).json({ message: 'Subject name is required' });
     }
   
     try {
