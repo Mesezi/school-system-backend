@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const addSubjectController = asyncHandler(async (req: any, res: any) => {
     const { classId } = req.params;
-    const { title, description } = req.body;
+    const { name, subjectDescription } = req.body;
     const schoolId = req.userData.schoolId;
 
     // console.log(schemeOfWork)
@@ -14,7 +14,7 @@ export const addSubjectController = asyncHandler(async (req: any, res: any) => {
         return res.status(404).json({ message: "School id not found" });
       }
   
-    if (!title) {
+    if (!name) {
       return res.status(400).json({ message: 'Subject title is required' });
     }
   
@@ -26,7 +26,7 @@ export const addSubjectController = asyncHandler(async (req: any, res: any) => {
       }
   
       // Check if subject already exists
-      const existingSubject = classDocument.subjects.find(subject => subject.title.toLowerCase() === title.toLowerCase());
+      const existingSubject = classDocument.subjects.find(subject => subject.name.toLowerCase() === name.toLowerCase());
       if (existingSubject) {
         return res.status(400).json({ message: 'Subject already exists' });
       }
@@ -34,7 +34,7 @@ export const addSubjectController = asyncHandler(async (req: any, res: any) => {
       const subjectId = uuidv4();
   
       // Add the new subject
-      classDocument.subjects.push({ title, description, schemeOfWork:[], id: subjectId });
+      classDocument.subjects.push({ name, subjectDescription, schemeOfWork:[], id: subjectId });
       await classDocument.save();
   
       res.status(201).json({

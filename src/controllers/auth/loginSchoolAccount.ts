@@ -1,55 +1,56 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 import { AdminUserModel } from "../../models/userModel";
 import asyncHandler from "express-async-handler";
-import encryptText from "../../lib/encryptText";
 import decryptText from "../../lib/decryptText";
 
 export const loginSchoolAccount = asyncHandler(async (req: any, res: any) => {
-  //Destructing the inputs from req.body
+  // Destructuring the inputs from req.body
   const { username, password } = req.body;
 
   try {
-    let user = await AdminUserModel.findOne({
-        username
-    });
+    let user = await AdminUserModel.findOne({ username });
 
     if (!user) {
-      //if user does not exist responding Authentication Failed
+      // if user does not exist, respond with Authentication Failed
       return res.status(401).json({
-        message: "Authentication Failed",
+        message: "Authentication failed: User not found.",
       });
     }
-    const checkPassword = password === decryptText(password)
+
+    const checkPassword = password === decryptText(password);
 
     if (!checkPassword) {
       return res.status(401).json({
-        message: "Incorrect password",
+        message: "Authentication failed: Incorrect password.",
       });
     } else {
+      // Update the lastLoggedIn property to the current date and time
+      user.lastLoggedIn = new Date();
+      await user.save();
+
       let jwtToken = jwt.sign(
         {
           email: user.email,
           userId: user.id,
           schoolId: user.schoolId,
-          accountType: user.accountType
+          accountType: user.accountType,
         },
-        //Signign the token with the JWT_SECRET in the .env
+        // Signing the token with the JWT_SECRET in the .env
         process.env.JWT_SECRET ?? "",
+
         {
-          expiresIn: "1h",
+          expiresIn: '1h'
         }
       );
- // Emit joinRoom event with user ID and type
+
       return res.status(200).json({
         accessToken: jwtToken,
         user: user,
       });
     }
   } catch (err: any) {
-    return res.status(401).json({
-      messgae: err.message,
-      success: false,
+    return res.status(500).json({
+      message: "Internal server error.",
     });
   }
 });

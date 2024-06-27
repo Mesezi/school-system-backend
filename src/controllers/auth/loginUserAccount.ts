@@ -17,24 +17,20 @@ export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
     if (!user) {
       //if user does not exist responding Authentication Failed
       return res.status(401).json({
-        message: "Authentication Failed",
-      });
-    }
-
-    if(user.accountType === 'admin' || user.accountType === 'class'){
-      return res.status(401).json({
-        message: "Wrong account type",
+        message: "Authentication failed: User not found.",
       });
     }
     
-
     const checkPassword = await bcrypt.compare(password, user.password) 
 
     if (!checkPassword) {
       return res.status(401).json({
-        message: "Incorrect password",
+        message: "Authentication failed: Incorrect password.",
       });
     } else {
+      // Update the lastLoggedIn property to the current date and time
+      user.lastLoggedIn = new Date();
+      await user.save();
       let jwtToken = jwt.sign(
         {
           email: user.email,
@@ -51,14 +47,13 @@ export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
 
       let userData = await AdminUserModel.findOne({ email }).select('-password -__v -_id');
 
-
       return res.status(200).json({
         accessToken: jwtToken,
         user: userData,
       });
     }
   } catch (err: any) {
-    return res.status(401).json({
+    return res.status(500).json({
       messgae: err.message,
       success: false,
     });

@@ -18,7 +18,7 @@ export const getStudentResult = asyncHandler(async (req:any, res:any) => {
       const result = await ResultModel.findOne({ id: studentId });
   
       if (!result) {
-        return res.status(404).send('Student not found');
+        return res.status(404).send('Student result not found');
       }
   
       const sessionData = result.session.get(session);
@@ -33,7 +33,10 @@ export const getStudentResult = asyncHandler(async (req:any, res:any) => {
         return res.status(404).send('Term not found');
       }
   
-      res.json(termData.results);
+      res.status(200).json({
+        message: 'Success',
+        data: termData.results
+    });
 
     } catch (err:any) {
       res.status(500).send(err.message);

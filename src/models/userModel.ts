@@ -10,15 +10,19 @@ const adminUserSchema = new mongoose.Schema({
     },
     lastName: {
         type: String,
-        required: [true, "Please enter first name"],
+        required: [true, "Please enter last name"],
     },
     accountType: {
         type: String,
-        required: [true, "Please add account type"],
+        required: [true],
     },
     email: {
         type: String,
         required: [true, "Please enter email address"],
+    },
+    lastLoggedIn: {
+        type: Date,
+        required: [true],
     },
     password: {
         type: String,

@@ -3,7 +3,7 @@ import { ClassModel } from "../../models/classModel";
 
 export const updateSubjectController = asyncHandler(async (req: any, res: any) => {
     const { classId, subjectId } = req.params;
-    const { description, schemeOfWork } = req.body;
+    const { subjectDescription, schemeOfWork } = req.body;
     const schoolId = req.userData.schoolId;
     
     if (!schoolId) {
@@ -34,8 +34,8 @@ export const updateSubjectController = asyncHandler(async (req: any, res: any) =
         }
 
         // Update the description and schemeOfWork if provided
-        if (description !== undefined) {
-            subject.description = description;
+        if (subjectDescription !== undefined) {
+            subject.subjectDescription = subjectDescription;
         }
         if (schemeOfWork !== undefined) {
             subject.schemeOfWork = schemeOfWork;

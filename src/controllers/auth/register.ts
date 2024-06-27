@@ -34,6 +34,7 @@ export const register = asyncHandler(async (req:any, res:any) => {
           phoneNumber: phoneNumber,
           accountType: 'superAdmin',
           role: role,
+          lastLoggedIn: new Date(),
           schoolId
         });
 

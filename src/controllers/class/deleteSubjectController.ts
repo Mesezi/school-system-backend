@@ -29,7 +29,6 @@ export const deleteSubjectController = asyncHandler(async (req: any, res: any) =
 
         res.status(200).json({
             message: 'Subject deleted successfully',
-            subjects: classDocument.subjects,
         });
     } catch (error: any) {
         console.error('Error deleting subject:', error);

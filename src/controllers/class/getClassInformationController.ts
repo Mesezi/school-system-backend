@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { ClassModel } from "../../models/classModel";
+import { StudentModel } from "../../models/studentModel";
 
 
 export const getClassInformationController = asyncHandler(async (req:any, res:any) => {
@@ -17,7 +18,12 @@ export const getClassInformationController = asyncHandler(async (req:any, res:an
 
   try {
     // Find all classes that match the provided schoolId
-    const classes = await ClassModel.find({ schoolId, id }).select('-password -accountType -username -_id -__v');
+    const classes = await ClassModel.find({ schoolId, id })
+    .select('-password -accountType -username -_id -__v');
+
+    const students = await StudentModel.find({ schoolId, classId: id })
+  .select('-password -accountType -username -_id -__v');
+
 
     if (!classes || classes.length === 0) {
       return res.status(404).json({ message: 'Class not found' });
@@ -28,7 +34,7 @@ export const getClassInformationController = asyncHandler(async (req:any, res:an
         message: 'Success',
         data: {
             classInformation: classes[0],
-            students: []
+            students
         } 
     });
   } catch (error) {

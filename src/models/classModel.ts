@@ -9,8 +9,8 @@ interface ISchemeOfWork {
 
 // Define the interface for a single subject
 interface ISubject {
-  title: string;
-  description: string;
+  name: string;
+  subjectDescription: string;
   schemeOfWork: ISchemeOfWork[];
   id: string;
 }
@@ -25,8 +25,8 @@ interface ITimetableEntry {
 interface IClass extends Document {
   id: string;
   userName: string;
-  type: 'Primary' | 'Junior Secondary' | 'Senior Secondary';
-  level: string;
+  type: 'primary' | 'junior-secondary' | 'senior-secondary';
+  level: number;
   name: string;
   teacherInformation: {
     firstName: string;
@@ -36,6 +36,11 @@ interface IClass extends Document {
     email: string;
     gender: string;
   };
+  schoolSessionAndTerm:{
+    session: string,
+    term: string,
+    termEndDate: Date,
+  },
   accountType: string;
   password?: string;
   schoolId: string;
@@ -54,6 +59,12 @@ interface IClass extends Document {
   };
 }
 
+const schoolSessionAndTermSchema = new Schema({
+  session: String,
+  term: String,
+  termEndDate: Date,
+});
+
 // Define the Mongoose schema for a single schemeOfWork entry
 const SchemeOfWorkSchema: Schema = new Schema({
   week: { type: Number, required: true },
@@ -63,8 +74,8 @@ const SchemeOfWorkSchema: Schema = new Schema({
 
 // Define the Mongoose schema for a single subject
 const SubjectSchema: Schema = new Schema({
-  title: { type: String, required: true },
-  description: { type: String, default: '' },
+  name: { type: String, required: true },
+  subjectDescription: { type: String, default: '' },
   id: { type: String, required: true },
   schemeOfWork: {
     type: [SchemeOfWorkSchema],
@@ -93,11 +104,12 @@ const ClassSchema: Schema = new Schema({
   userName: { type: String, required: [true, "Please add a username"] },
   type: {
     type: String,
-    enum: ['Primary', 'Junior Secondary', 'Senior Secondary'],
+    enum: ['primary', 'junior-secondary', 'senior-secondary'],
     required: [true, "Please add a class type"],
   },
-  level: { type: String, required: [true, "Please add a level"] },
+  level: { type: Number, required: [true, "Class level missing"] },
   name: { type: String, required: [true, "Please add a class name"] },
+  schoolSessionAndTerm: schoolSessionAndTermSchema,
   teacherInformation: {
     firstName: String,
     lastName: String,

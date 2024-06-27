@@ -38,6 +38,10 @@ const StudentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lastLoggedIn: {
+    type: Date,
+    required: [true],
+},
   classId: {
     type: String,
   },
