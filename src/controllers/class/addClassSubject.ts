@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const addSubjectController = asyncHandler(async (req: any, res: any) => {
     const { classId } = req.params;
-    const { name, subjectDescription } = req.body;
+    const { name, subjectDescription, schemeOfWork } = req.body;
     const schoolId = req.userData.schoolId;
 
     // console.log(schemeOfWork)
@@ -34,7 +34,7 @@ export const addSubjectController = asyncHandler(async (req: any, res: any) => {
       const subjectId = uuidv4();
   
       // Add the new subject
-      classDocument.subjects.push({ name, subjectDescription, schemeOfWork:[], id: subjectId });
+      classDocument.subjects.push({ name, subjectDescription, schemeOfWork, id: subjectId });
       await classDocument.save();
   
       res.status(201).json({
