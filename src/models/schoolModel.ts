@@ -38,27 +38,41 @@ const schoolSchema = new mongoose.Schema(
       type: String,
       required: [true],
     },
+    subscriptionEndDate: {
+      type: Date,
+      required: [true],
+    },
     schoolInformation: {
       schoolShortName: String,
       schoolAddress: String,
       schoolLogo: String,
       schoolEmail: String,
       schoolColor: String,
-      schoolGradingSystem: {
-        test1: Number,
-        test2: Number,
-        exam: Number,
-      },
-      studentPerformanceTable: mongoose.Schema.Types.Mixed,
     },
     schoolSessionAndTerm: schoolSessionAndTermSchema,
     schoolCalendar: [schoolCalendarSchema],
-    schoolTimetables: {
-      schoolTimetable: mongoose.Schema.Types.Mixed,
-      schoolExamTimetable: mongoose.Schema.Types.Mixed,
-    },
+    schoolExamTimetable: mongoose.Schema.Types.Mixed,
     schoolAnnouncements: [schoolAnnouncementSchema],
-    schoolSubjects: schoolSubjectsSchema
+    schoolSubjects: schoolSubjectsSchema,
+    schoolResultDetails: {
+      grade: {
+        A: { min: Number, max: Number },
+        B: { min: Number, max: Number },
+        C: { min: Number, max: Number },
+        D: { min: Number, max: Number },
+        E: { min: Number, max: Number },
+        F: { min: Number, max: Number },
+      },
+      scores: {
+        test1: Number,
+        test2: Number,
+        exam: Number
+      },
+      performance: {
+        affectiveSkills: [String],
+        psychomotorSkills: [String]
+      }
+    }
   },
   {
     timestamps: true,

@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 export const register = asyncHandler(async (req:any, res:any) => {
   //Destructuing the inputs from req.body
   const { firstName, lastName, schoolName, 
-     email, password, phoneNumber, role } = req.body;
+     email, password, phoneNumber, role, sex, namePrefix } = req.body;
 
   //Verifying the email address inputed is not used already
   const verifyEmail = await AdminUserModel.findOne({ email: email });
@@ -34,12 +34,22 @@ export const register = asyncHandler(async (req:any, res:any) => {
           phoneNumber: phoneNumber,
           accountType: 'superAdmin',
           role: role,
+          sex,
+          namePrefix,
           lastLoggedIn: new Date(),
           schoolId
         });
 
+
+
+    // Calculate the date 60 days from now
+    const currentDate = new Date();
+    const futureDate = new Date(currentDate);
+    futureDate.setDate(currentDate.getDate() + 60);
+
         const school = new SchoolModel({
           id: schoolId,
+          subscriptionEndDate: futureDate,
           schoolName
         });
 

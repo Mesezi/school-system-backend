@@ -14,7 +14,6 @@ import { loginSchoolAccount } from "../controllers/auth/loginSchoolAccount";
 import { createClassController } from "../controllers/class/createClassController";
 import { deleteClassController } from "../controllers/class/deleteClassController";
 import { getSchoolDetails } from "../controllers/school/getSchoolDetails";
-import { getAllClasses } from "../controllers/class/getAllClasses";
 import { getClassInformationController } from "../controllers/class/getClassInformationController";
 import { addStudentController } from "../controllers/student/addStudentController";
 import { updateClassTimetable } from "../controllers/class/updateClassTimetableController";
@@ -25,6 +24,14 @@ import { updateStudentTermResult } from "../controllers/result/updateStudentTerm
 import { addSubjectController } from "../controllers/class/addClassSubject";
 import { updateSubjectController } from "../controllers/class/updateSubjectController";
 import { deleteSubjectController } from "../controllers/class/deleteSubjectController";
+import { getAllClasses } from "../controllers/class/getAllClasses";
+import { getAllStudents } from "../controllers/student/getAllStudents";
+import { updateSchoolGrade } from "../controllers/school/updateSchoolGrade";
+import { updateSchoolPerformance } from "../controllers/school/updateSchoolPerformance";
+import { updateSchoolScores } from "../controllers/school/updateSchoolScores";
+
+
+
 const router = express.Router();
 
 router.post("/register", registerSchoolOwner, register);
@@ -48,9 +55,13 @@ router.post("/school/calendar",authMiddleware, updateSchoolCalendar);
 router.post("/school/information",authMiddleware, updateSchoolInformation);
 router.post("/school/subjects",authMiddleware, updateSchoolSubjects);
 router.post("/school/sessionAndTerm",authMiddleware, updateSchoolSessionAndTerm);
+router.post("/school/grade",authMiddleware, updateSchoolGrade);
+router.post("/school/performance",authMiddleware, updateSchoolPerformance);
+router.post("/school/scores",authMiddleware, updateSchoolScores);
 
 
 router.post("/student/add", authMiddleware, addStudentController);
+router.get("/student/all", authMiddleware, getAllStudents);
 router.get("/student/:studentId", authMiddleware, getStudentDetailsController);
 router.post("/student/result/create/:studentId", authMiddleware, createStudentResult);
 router.put("/student/result/update/:studentId", authMiddleware, updateStudentTermResult);

@@ -8,6 +8,7 @@ import { generateRandomString } from "../../util/generateRandomString";
 import { ClassModel } from "../../models/classModel";
 
 export const deleteClassController = asyncHandler(async (req:any, res:any) => {
+  
   try {
     const classId = req.params.id; // Assuming classId is passed as a parameter in the request URL
 

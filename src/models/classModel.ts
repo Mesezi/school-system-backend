@@ -36,6 +36,7 @@ interface IClass extends Document {
     email: string;
     gender: string;
   };
+  lastLoggedIn: Date,
   schoolSessionAndTerm:{
     session: string,
     term: string,
@@ -118,6 +119,10 @@ const ClassSchema: Schema = new Schema({
     email: String,
     gender: String,
   },
+  lastLoggedIn: {
+    type: Date,
+    required: [true],
+},
   accountType: { type: String, required: [true, "Please add account type"] },
   password: { type: String },
   schoolId: { type: String, required: [true, "Please add school id"] },

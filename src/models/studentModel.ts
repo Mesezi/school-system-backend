@@ -63,7 +63,7 @@ const StudentSchema = new mongoose.Schema({
   sex: {
     type: String,
     required: true,
-    enum: ['Male', 'Female',],
+    enum: ['male', 'female',],
   },
   parentGuardian: {
     type: ParentGuardianSchema,

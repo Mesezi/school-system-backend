@@ -12,8 +12,12 @@ export const updateClassTimetable = asyncHandler(async (req:any, res:any) => {
  const {classId} = req.params
  const schoolId = req.userData.schoolId;
 
+ if (!schoolId) {
+  return res.status(404).json({ message: "School id not found" });
+}
+
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const requiredKeys = ['startTime', 'endTime', 'subject', ];
+    const requiredKeys = ['startTime', 'endTime', 'subject'];
 
     for (let day in updateData) {
         if (!daysOfWeek.includes(day)) {
@@ -50,9 +54,7 @@ export const updateClassTimetable = asyncHandler(async (req:any, res:any) => {
     }
 
 
- if (!schoolId) {
-   return res.status(404).json({ message: "School id not found" });
- }
+
 
 
  try {

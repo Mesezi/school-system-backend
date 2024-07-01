@@ -15,31 +15,17 @@ export const updateSchoolInformation = asyncHandler(async (req:any, res:any) => 
     schoolLogo: String,
     schoolEmail: String,
     schoolColor: String,
-    schoolGradingSystem: {
-      test1: Number,
-      test2: Number,
-      exam: Number,
-    }
   };
   
 // Check if all keys are present in updateData
 const requiredKeys = Object.keys(schema);
 const actualKeys = Object.keys(updateData);
 const missingFields = requiredKeys.filter(key => !actualKeys.includes(key));
+
 if (missingFields.length > 0) {
   return res.status(400).json({
     success: false,
     message: `Missing fields in school information: ${missingFields.join(', ')}`
-  });
-}
-
-const gradingSystemKeys = Object.keys(schema.schoolGradingSystem);
-const actualGradingSystemKeys = Object.keys(updateData.schoolGradingSystem);
-const missingGradingSystemFields = gradingSystemKeys.filter(key => !actualGradingSystemKeys.includes(key));
-if (missingGradingSystemFields.length > 0) {
-  return res.status(400).json({
-    success: false,
-    message: `Missing fields in school grading system: ${missingGradingSystemFields.join(', ')}`
   });
 }
 

@@ -2,17 +2,23 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { AdminUserModel } from "../../models/userModel";
 import asyncHandler from "express-async-handler";
-import encryptText from "../../lib/encryptText";
-import { removeKeys } from "../../util/removeKeys";
+import { StudentModel } from "../../models/studentModel";
 
 export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
   //Destructing the inputs from req.body
   const { email, password } = req.body;
 
+  // if (userType) {
+  //   //if user does not exist responding Authentication Failed
+  //   return res.status(401).json({
+  //     message: "Authentication failed: User type not found.",
+  //   });
+  // }
+
   try {
     let user = await AdminUserModel.findOne({
-      email
-    });
+            email,
+          });
 
     if (!user) {
       //if user does not exist responding Authentication Failed
@@ -20,8 +26,8 @@ export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
         message: "Authentication failed: User not found.",
       });
     }
-    
-    const checkPassword = await bcrypt.compare(password, user.password) 
+
+    const checkPassword = await bcrypt.compare(password, user.password);
 
     if (!checkPassword) {
       return res.status(401).json({
@@ -36,16 +42,18 @@ export const loginUserAccount = asyncHandler(async (req: any, res: any) => {
           email: user.email,
           userId: user.id,
           schoolId: user.schoolId,
-          accountType: user.accountType
+          accountType: user.accountType,
         },
         //Signign the token with the JWT_SECRET in the .env
-        process.env.JWT_SECRET ?? "",
+        process.env.JWT_SECRET ?? ""
         // {
         //   expiresIn: "1h",
         // }
       );
 
-      let userData = await AdminUserModel.findOne({ email }).select('-password -__v -_id');
+      let userData = await AdminUserModel.findOne({ email }).select(
+        "-password -__v -_id"
+      );
 
       return res.status(200).json({
         accessToken: jwtToken,

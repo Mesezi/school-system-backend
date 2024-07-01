@@ -12,6 +12,16 @@ const adminUserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter last name"],
     },
+    sex:{
+        type: String,
+        required: true,
+        enum: ['male', 'female'],
+    },
+    namePrefix:{
+        type: String,
+        required: true,
+        enum: ['Mr', 'Ms', 'Mrs', 'Dr', 'Prof'],
+    },
     accountType: {
         type: String,
         required: [true],

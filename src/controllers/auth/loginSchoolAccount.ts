@@ -1,14 +1,23 @@
 import jwt from "jsonwebtoken";
-import { AdminUserModel } from "../../models/userModel";
 import asyncHandler from "express-async-handler";
 import decryptText from "../../lib/decryptText";
+import { ClassModel } from "../../models/classModel";
 
 export const loginSchoolAccount = asyncHandler(async (req: any, res: any) => {
   // Destructuring the inputs from req.body
-  const { username, password } = req.body;
+  const { userName, password, userType } = req.body;
+
+  if (userType) {
+    //if user does not exist responding Authentication Failed
+    return res.status(401).json({
+      message: "Authentication failed: User type not found.",
+    });
+  }
 
   try {
-    let user = await AdminUserModel.findOne({ username });
+    let user = await ClassModel.findOne({
+      userName,
+    });
 
     if (!user) {
       // if user does not exist, respond with Authentication Failed
@@ -30,7 +39,7 @@ export const loginSchoolAccount = asyncHandler(async (req: any, res: any) => {
 
       let jwtToken = jwt.sign(
         {
-          email: user.email,
+          username: user.userName,
           userId: user.id,
           schoolId: user.schoolId,
           accountType: user.accountType,
@@ -39,7 +48,7 @@ export const loginSchoolAccount = asyncHandler(async (req: any, res: any) => {
         process.env.JWT_SECRET ?? "",
 
         {
-          expiresIn: '1h'
+          expiresIn: "1h",
         }
       );
 

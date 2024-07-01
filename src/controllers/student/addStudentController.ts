@@ -30,7 +30,7 @@ export const addStudentController = asyncHandler(async (req:any, res:any) => {
     if (studentDetailsRes) {
       return res.status(201).json({
         message: 'Student successfully created!',
-        result: studentDetails,
+        data: studentDetails,
         success: true,
       });
     }
