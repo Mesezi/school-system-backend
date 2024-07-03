@@ -40,7 +40,6 @@ const StudentSchema = new mongoose.Schema({
   },
   lastLoggedIn: {
     type: Date,
-    required: [true],
 },
   classId: {
     type: String,
