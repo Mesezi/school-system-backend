@@ -20,7 +20,7 @@ export const addStudentController = asyncHandler(async (req:any, res:any) => {
       ...data,
       id: studentId,
       accountType: 'student',
-      classId: '',
+      classId: data?.classId ?? '',
       password: hashedPassword,
       schoolId,
     });
