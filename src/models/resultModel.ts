@@ -8,6 +8,9 @@ interface Result {
 }
 
 interface Term {
+  class: string;
+  school: string;
+  schoolId: string;
   comments: string;
   info: string;
   verified: boolean;
@@ -16,8 +19,6 @@ interface Term {
 }
 
 interface Session {
-  class: string;
-  school: string;
   terms: Map<string, Term>
 }
 
@@ -31,8 +32,6 @@ const resultSchema: Schema = new Schema({
   session: {
     type: Map,
     of: new Schema({
-      class: String,
-      school: String,
       verified: Boolean,
       terms: {
         type: Map,
@@ -46,6 +45,9 @@ const resultSchema: Schema = new Schema({
               info: {
                 type: [Schema.Types.Mixed],  // Array of any type
               }, 
+              class: String,
+              school: String,
+              schoolId: String,
               verified: Boolean,
           results: [{
             test1: Number,

@@ -24,7 +24,7 @@ interface ITimetableEntry {
 // Define the interface for the class document
 interface IClass extends Document {
   id: string;
-  userName: string;
+  username: string;
   type: 'primary' | 'junior-secondary' | 'senior-secondary';
   level: number;
   name: string;
@@ -102,7 +102,7 @@ const ClassMessagesSchema: Schema = new Schema({
 // Define the Mongoose schema for the class document
 const ClassSchema: Schema = new Schema({
   id: { type: String },
-  userName: { type: String, required: [true, "Please add a username"] },
+  username: { type: String, required: [true, "Please add a username"] },
   type: {
     type: String,
     enum: ['primary', 'junior-secondary', 'senior-secondary'],

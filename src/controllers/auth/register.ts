@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { AdminUserModel } from '../../models/userModel';
+import { SuperAdminModel } from '../../models/userModel';
 import SchoolModel from '../../models/schoolModel';
 import asyncHandler from "express-async-handler";
 import { v4 as uuidv4 } from "uuid";
@@ -11,7 +11,7 @@ export const register = asyncHandler(async (req:any, res:any) => {
      email, password, phoneNumber, role, sex, namePrefix } = req.body;
 
   //Verifying the email address inputed is not used already
-  const verifyEmail = await AdminUserModel.findOne({ email: email });
+  const verifyEmail = await SuperAdminModel.findOne({ email: email });
   try {
     if (verifyEmail) {
       return res.status(403).json({
@@ -25,7 +25,7 @@ export const register = asyncHandler(async (req:any, res:any) => {
         //using bcrypt to hash the password sent from the user
         const hashedPassword = await bcrypt.hash(password, 10);
         // console.log(hashPassword)
-        const user = new AdminUserModel({
+        const user = new SuperAdminModel({
           id: userId,
           firstName: firstName,
           lastName: lastName,

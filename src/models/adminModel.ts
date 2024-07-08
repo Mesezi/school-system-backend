@@ -26,7 +26,7 @@ const adminUserSchema = new mongoose.Schema({
         type: String,
         required: [true],
     },
-    email: {
+    username: {
         type: String,
         required: [true, "Please enter email address"],
     },
@@ -54,5 +54,5 @@ const adminUserSchema = new mongoose.Schema({
         timestamps: true,
     })
 
-export const SuperAdminModel = mongoose.model('users', adminUserSchema,);
+export const AdminModel = mongoose.model('Admin', adminUserSchema);
 

@@ -22,7 +22,7 @@ const loginUserValidation = async (
 ) => {
   let validateRule;
 
-  if (type === "user") {
+  if (type === "email") {
     validateRule = {
       email: "required|email",
       password: "required|min:6",

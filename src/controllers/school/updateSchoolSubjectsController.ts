@@ -1,8 +1,5 @@
-import bcrypt from "bcryptjs";
-import { AdminUserModel } from '../../models/userModel';
 import SchoolModel from '../../models/schoolModel';
 import asyncHandler from "express-async-handler";
-import { v4 as uuidv4 } from "uuid";
 
 
 export const updateSchoolSubjects = asyncHandler(async (req:any, res:any) => {

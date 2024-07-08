@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import { ResultModel } from "../../models/resultModel";
 
-export const deleteStudentController = asyncHandler(async (req:any, res:any) => {
+export const deleteStudentResult = asyncHandler(async (req:any, res:any) => {
   const { studentId } = req.params;
 
   try {

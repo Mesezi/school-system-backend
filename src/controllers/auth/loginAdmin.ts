@@ -1,32 +1,26 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { AdminModel } from "../../models/adminModel";
 import asyncHandler from "express-async-handler";
 import decryptText from "../../lib/decryptText";
-import { ClassModel } from "../../models/classModel";
 
-export const loginSchoolAccount = asyncHandler(async (req: any, res: any) => {
-  // Destructuring the inputs from req.body
-  const { userName, password, userType } = req.body;
-
-  if (userType) {
-    //if user does not exist responding Authentication Failed
-    return res.status(401).json({
-      message: "Authentication failed: User type not found.",
-    });
-  }
+export const loginAdmin = asyncHandler(async (req: any, res: any) => {
+  //Destructing the inputs from req.body
+  const { username, password } = req.body;
 
   try {
-    let user = await ClassModel.findOne({
-      userName,
-    });
+    let user = await AdminModel.findOne({
+            username,
+          });
 
     if (!user) {
-      // if user does not exist, respond with Authentication Failed
+      //if user does not exist responding Authentication Failed
       return res.status(401).json({
         message: "Authentication failed: User not found.",
       });
     }
 
-    const checkPassword = password === decryptText(password);
+    const checkPassword = decryptText(password) === user.password;
 
     if (!checkPassword) {
       return res.status(401).json({
@@ -36,21 +30,23 @@ export const loginSchoolAccount = asyncHandler(async (req: any, res: any) => {
       // Update the lastLoggedIn property to the current date and time
       user.lastLoggedIn = new Date();
       await user.save();
-
       let jwtToken = jwt.sign(
         {
-          username: user.userName,
+          username: user.username,
           userId: user.id,
           schoolId: user.schoolId,
           accountType: user.accountType,
         },
-        // Signing the token with the JWT_SECRET in the .env
-        process.env.JWT_SECRET ?? "",
-
-        {
-          expiresIn: "1h",
-        }
+        //Signign the token with the JWT_SECRET in the .env
+        process.env.JWT_SECRET ?? ""
+        // {
+        //   expiresIn: "1h",
+        // }
       );
+
+    //   let userData = await AdminModel.findOne({ username }).select(
+    //     "-password -__v -_id"
+    //   );
 
       return res.status(200).json({
         accessToken: jwtToken,
@@ -59,7 +55,8 @@ export const loginSchoolAccount = asyncHandler(async (req: any, res: any) => {
     }
   } catch (err: any) {
     return res.status(500).json({
-      message: "Internal server error.",
+      messgae: err.message,
+      success: false,
     });
   }
 });

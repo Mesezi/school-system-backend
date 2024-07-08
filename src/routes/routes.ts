@@ -1,4 +1,4 @@
-import { loginUserAccount } from "../controllers/auth/loginUserAccount";
+import { loginSuperAdmin } from "../controllers/auth/loginSuperAdmin";
 import { register } from "../controllers/auth/register";
 import loginValidation from "../middleware/validation/loginValidation";
 import registerSchoolOwner from "../middleware/validation/registerSchoolOwner";
@@ -10,7 +10,6 @@ import { updateSchoolInformation } from "../controllers/school/updateSchoolInfor
 import { updateSchoolSubjects } from "../controllers/school/updateSchoolSubjectsController";
 import { updateSchoolSessionAndTerm } from "../controllers/school/updateSchoolSessionAndTermController";
 import authMiddleware from "../middleware/validation/authMiddleware";
-import { loginSchoolAccount } from "../controllers/auth/loginSchoolAccount";
 import { createClassController } from "../controllers/class/createClassController";
 import { deleteClassController } from "../controllers/class/deleteClassController";
 import { getSchoolDetails } from "../controllers/school/getSchoolDetails";
@@ -29,15 +28,25 @@ import { getAllStudents } from "../controllers/student/getAllStudents";
 import { updateSchoolGrade } from "../controllers/school/updateSchoolGrade";
 import { updateSchoolPerformance } from "../controllers/school/updateSchoolPerformance";
 import { updateSchoolScores } from "../controllers/school/updateSchoolScores";
+import { loginAdmin } from "../controllers/auth/loginAdmin";
+import { loginStudent } from "../controllers/auth/loginStudent";
+import { createAdmin } from "../controllers/auth/createAdmin";
+import { deleteAdmin } from "../controllers/auth/deleteAdmin";
+import { deleteStudentController } from "../controllers/student/deleteStudentController";
+import { deleteStudentResult } from "../controllers/result/deleteStudentResult";
 
 
 
 const router = express.Router();
 
 router.post("/register", registerSchoolOwner, register);
-router.post("/user/login", (req, res, next)=>loginValidation(req,res,next, 'user'), loginUserAccount);
-router.post("/school/login",  (req, res, next)=>loginValidation(req,res,next, 'school'), loginSchoolAccount);
+router.post("/superAdmin/login", (req, res, next)=>loginValidation(req,res,next, 'email'), loginSuperAdmin);
+router.post("/admin/login", (req, res, next)=>loginValidation(req,res,next, 'school'), loginAdmin);
+router.post("/class/login", (req, res, next)=>loginValidation(req,res,next, 'school'), loginAdmin);
+router.post("/student/login",  (req, res, next)=>loginValidation(req,res,next, 'email'), loginStudent);
 
+router.post("/admin/create", authMiddleware, createAdmin);
+router.delete("/admin/delete/:adminId", authMiddleware, deleteAdmin);
 
 router.get("/class/all", authMiddleware, getAllClasses);
 router.post("/class/create", authMiddleware, createClassController);
@@ -65,8 +74,8 @@ router.get("/student/all", authMiddleware, getAllStudents);
 router.get("/student/:studentId", authMiddleware, getStudentDetailsController);
 router.post("/student/result/create/:studentId", authMiddleware, createStudentResult);
 router.put("/student/result/update/:studentId", authMiddleware, updateStudentTermResult);
-router.delete("/student/result/delete/:studentId", authMiddleware, getStudentDetailsController);
-router.delete("/student/delete/:studentId", authMiddleware, getStudentDetailsController);
+router.delete("/student/result/delete/:studentId", authMiddleware, deleteStudentResult);
+router.delete("/student/delete/:studentId", authMiddleware, deleteStudentController);
 router.put("/student/update/:studentId", authMiddleware, updateStudentDetailsController);
 
 export default router;
