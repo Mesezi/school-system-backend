@@ -17,7 +17,7 @@ export const loginClass = asyncHandler(async (req: any, res: any) => {
     if (!classAccount) {
       //if user does not exist responding Authentication Failed
       return res.status(401).json({
-        message: "Authentication failed: User not found.",
+        message: "Authentication failed: Class not found.",
       });
     }
 
