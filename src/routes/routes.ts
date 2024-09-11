@@ -34,6 +34,7 @@ import { createAdmin } from "../controllers/auth/createAdmin";
 import { deleteAdmin } from "../controllers/auth/deleteAdmin";
 import { deleteStudentController } from "../controllers/student/deleteStudentController";
 import { deleteStudentResult } from "../controllers/result/deleteStudentResult";
+import { loginClass } from "../controllers/auth/loginClass";
 
 
 
@@ -41,8 +42,8 @@ const router = express.Router();
 
 router.post("/register", registerSchoolOwner, register);
 router.post("/superAdmin/login", (req, res, next)=>loginValidation(req,res,next, 'email'), loginSuperAdmin);
-router.post("/admin/login", (req, res, next)=>loginValidation(req,res,next, 'school'), loginAdmin);
-router.post("/class/login", (req, res, next)=>loginValidation(req,res,next, 'school'), loginAdmin);
+router.post("/admin/login", (req, res, next)=>loginValidation(req,res,next, 'username'), loginAdmin);
+router.post("/class/login", (req, res, next)=>loginValidation(req,res,next, 'username'), loginClass);
 router.post("/student/login",  (req, res, next)=>loginValidation(req,res,next, 'email'), loginStudent);
 
 router.post("/admin/create", authMiddleware, createAdmin);
