@@ -54,7 +54,7 @@ export const loginSuperAdmin = asyncHandler(async (req: any, res: any) => {
     }
   } catch (err: any) {
     return res.status(500).json({
-      messgae: err.message,
+      message: err.message,
       success: false,
     });
   }

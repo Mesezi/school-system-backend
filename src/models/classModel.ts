@@ -43,7 +43,7 @@ interface IClass extends Document {
     termEndDate: Date,
   },
   accountType: string;
-  password?: string;
+  password: string;
   schoolId: string;
   subjects: ISubject[];
   classMessages: {

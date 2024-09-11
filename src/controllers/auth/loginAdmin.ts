@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { AdminModel } from "../../models/adminModel";
 import asyncHandler from "express-async-handler";
 import decryptText from "../../lib/decryptText";
+import encryptText from "../../lib/encryptText";
 
 export const loginAdmin = asyncHandler(async (req: any, res: any) => {
   //Destructing the inputs from req.body
@@ -10,8 +11,8 @@ export const loginAdmin = asyncHandler(async (req: any, res: any) => {
 
   try {
     let user = await AdminModel.findOne({
-            username,
-          });
+      username,
+    });
 
     if (!user) {
       //if user does not exist responding Authentication Failed
@@ -20,7 +21,9 @@ export const loginAdmin = asyncHandler(async (req: any, res: any) => {
       });
     }
 
-    const checkPassword = decryptText(password) === user.password;
+    console.log(user.password)
+    
+    const checkPassword = decryptText(user.password) === password;
 
     if (!checkPassword) {
       return res.status(401).json({
@@ -44,9 +47,9 @@ export const loginAdmin = asyncHandler(async (req: any, res: any) => {
         // }
       );
 
-    //   let userData = await AdminModel.findOne({ username }).select(
-    //     "-password -__v -_id"
-    //   );
+      //   let userData = await AdminModel.findOne({ username }).select(
+      //     "-password -__v -_id"
+      //   );
 
       return res.status(200).json({
         accessToken: jwtToken,
@@ -55,7 +58,7 @@ export const loginAdmin = asyncHandler(async (req: any, res: any) => {
     }
   } catch (err: any) {
     return res.status(500).json({
-      messgae: err.message,
+      message: err.message,
       success: false,
     });
   }

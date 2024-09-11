@@ -1,14 +1,14 @@
-import crypto from 'crypto';
+var { ncrypt } = require("ncrypt-js");
 
 export default (encryptedData = '') => {
 const encryptionKey =  process.env.ENCRYPTION_KEY ?? ''
-  const [initializationVectorAsHex, encryptedDataAsHex] = encryptedData?.split(':');
-  const initializationVector = Buffer.from(initializationVectorAsHex, 'hex');
-  const hashedEncryptionKey = crypto.createHash('sha256').update(encryptionKey).digest('hex').substring(0, 32);
-  const decipher = crypto.createDecipheriv('aes256', hashedEncryptionKey, initializationVector);
-  
-  let decryptedText = decipher.update(Buffer.from(encryptedDataAsHex, 'hex'));
-  decryptedText = Buffer.concat([decryptedText, decipher.final()]);
-
-  return decryptedText.toString();
+var ncryptObject = new ncrypt(encryptionKey);
+// decrypted super encrypted data here
+var decryptedData = ncryptObject.decrypt(encryptedData);
+return decryptedData;
 };
+
+
+
+
+// encrypting super sensitive data here

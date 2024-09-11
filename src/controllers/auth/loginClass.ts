@@ -21,7 +21,7 @@ export const loginClass = asyncHandler(async (req: any, res: any) => {
       });
     }
 
-    const checkPassword = decryptText(password) === classAccount?.password;
+    const checkPassword = decryptText(classAccount?.password) === password;
 
     if (!checkPassword) {
       return res.status(401).json({
@@ -56,7 +56,7 @@ export const loginClass = asyncHandler(async (req: any, res: any) => {
     }
   } catch (err: any) {
     return res.status(500).json({
-      messgae: err.message,
+      message: err.message,
       success: false,
     });
   }
