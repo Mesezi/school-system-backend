@@ -40,8 +40,10 @@ export const getAllStudents = asyncHandler(async (req: any, res: any) => {
       .limit(limitNum);
 
     if (!students || students.length === 0) {
-      return res.status(404).json({ message: 'No students found' });
+      return res.status(200).json({ message: 'No students found', data: [] });
     }
+
+const totalStudents = await StudentModel.countDocuments(query)
 
     // Return the students
     res.status(200).json({
@@ -50,7 +52,7 @@ export const getAllStudents = asyncHandler(async (req: any, res: any) => {
       pagination: {
         page: pageNum,
         limit: limitNum,
-        total: await StudentModel.countDocuments(query)
+        total: totalStudents
       }
     });
   } catch (error) {

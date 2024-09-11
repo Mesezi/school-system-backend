@@ -29,7 +29,7 @@ export const getAllClasses = asyncHandler(async (req: any, res: any) => {
     );
 
     if (!classes || classes.length === 0) {
-      return res.status(404).json({ message: "No classes found" });
+      return res.status(200).json({ message: "No classes found", data: [] });
     }
 
     // Return the classes
