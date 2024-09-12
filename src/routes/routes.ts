@@ -35,6 +35,7 @@ import { deleteAdmin } from "../controllers/auth/deleteAdmin";
 import { deleteStudentController } from "../controllers/student/deleteStudentController";
 import { deleteStudentResult } from "../controllers/result/deleteStudentResult";
 import { loginClass } from "../controllers/auth/loginClass";
+import { getStudentResult } from "../controllers/result/getStudentResult";
 
 
 
@@ -74,6 +75,7 @@ router.post("/student/add", authMiddleware, addStudentController);
 router.get("/student/all", authMiddleware, getAllStudents);
 router.get("/student/:studentId", authMiddleware, getStudentDetailsController);
 router.post("/student/result/create/:studentId", authMiddleware, createStudentResult);
+router.get("/student/result", authMiddleware, getStudentResult);
 router.put("/student/result/update/:studentId", authMiddleware, updateStudentTermResult);
 router.delete("/student/result/delete/:studentId", authMiddleware, deleteStudentResult);
 router.delete("/student/delete/:studentId", authMiddleware, deleteStudentController);
