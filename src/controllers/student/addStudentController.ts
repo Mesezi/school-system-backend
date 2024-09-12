@@ -10,7 +10,7 @@ export const addStudentController = asyncHandler(async (req:any, res:any) => {
   try {
     const verifyEmail = await StudentModel.findOne({ email: data.email });
     if (verifyEmail) {
-      return res.status(403).json({ message: 'Email already used' });
+      return res.status(409).json({ message: 'Email already used' });
     }
 
     const studentId = uuidv4();
@@ -23,6 +23,7 @@ export const addStudentController = asyncHandler(async (req:any, res:any) => {
       classId: data?.classId ?? '',
       password: hashedPassword,
       schoolId,
+      lastLoggedIn: new Date(),
     });
 
     const studentDetailsRes = await studentDetails.save();

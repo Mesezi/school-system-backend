@@ -18,7 +18,7 @@ export const createAdmin = asyncHandler(async (req:any, res:any) => {
   const currentAdmins =  await AdminModel.find({ schoolId });
   
   if(currentAdmins?.length === 3){
-    return res.status(403).json({
+    return res.status(409).json({
         message: "You have reached max admin accounts",
       });
   }
@@ -28,7 +28,7 @@ export const createAdmin = asyncHandler(async (req:any, res:any) => {
 
   try {
     if (verifyUsername) {
-      return res.status(403).json({
+      return res.status(409).json({
         message: "Username already exists",
       });
     } else {

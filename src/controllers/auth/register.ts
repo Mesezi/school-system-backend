@@ -14,7 +14,7 @@ export const register = asyncHandler(async (req:any, res:any) => {
   const verifyEmail = await SuperAdminModel.findOne({ email: email });
   try {
     if (verifyEmail) {
-      return res.status(403).json({
+      return res.status(409).json({
         message: "Email already used",
       });
     } else {

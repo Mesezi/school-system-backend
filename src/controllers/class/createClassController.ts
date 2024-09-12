@@ -10,12 +10,12 @@ export const createClassController = asyncHandler(
     const schoolId = req.userData.schoolId;
 
     try {
-      const verifyUserName = await ClassModel.findOne({
-        userName: data.userName,
+      const verifyUsername = await ClassModel.findOne({
+        username: data.username,
       });
 
-      if (verifyUserName) {
-        return res.status(403).json({
+      if (verifyUsername) {
+        return res.status(409).json({
           message: "Username already exists",
         });
       }
@@ -27,6 +27,7 @@ export const createClassController = asyncHandler(
         id: classId,
         accountType: "class",
         schoolId,
+        lastLoggedIn: new Date(),
         schoolSessionAndTerm: school?.schoolSessionAndTerm
       });
 
