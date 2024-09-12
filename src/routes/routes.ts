@@ -75,7 +75,7 @@ router.post("/student/add", authMiddleware, addStudentController);
 router.get("/student/all", authMiddleware, getAllStudents);
 router.get("/student/:studentId", authMiddleware, getStudentDetailsController);
 router.post("/student/result/create/:studentId", authMiddleware, createStudentResult);
-router.get("/student/result", authMiddleware, getStudentResult);
+router.get("/student/result/:studentId/:session/:term", authMiddleware, getStudentResult);
 router.put("/student/result/update/:studentId", authMiddleware, updateStudentTermResult);
 router.delete("/student/result/delete/:studentId", authMiddleware, deleteStudentResult);
 router.delete("/student/delete/:studentId", authMiddleware, deleteStudentController);
