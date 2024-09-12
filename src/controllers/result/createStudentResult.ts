@@ -19,19 +19,19 @@ export const createStudentResult = asyncHandler(async (req: any, res: any) => {
     const student = await StudentModel.findOne({ id: studentId });
 
     if (!student) {
-      return res.status(401).json({
+      return res.status(404).json({
         message: "This student does not exist",
       });
     }
 
     if (student?.classId === "") {
-      return res.status(401).json({
+      return res.status(400).json({
         message: "This student does not belong to a class",
       });
     }
 
     if (!validTerms.includes(term)) {
-      return res.status(401).json({
+      return res.status(400).json({
         message: `${term} as a term is invalid, must be 1st, 2nd, 3rd`,
       });
     }
