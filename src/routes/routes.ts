@@ -36,9 +36,10 @@ import { deleteStudentController } from "../controllers/student/deleteStudentCon
 import { deleteStudentResult } from "../controllers/result/deleteStudentResult";
 import { loginClass } from "../controllers/auth/loginClass";
 import { getStudentResult } from "../controllers/result/getStudentResult";
+import multer from 'multer';
+import { classResultBulkUpload } from "../controllers/result/classResultBulkUpload";
 
-
-
+const upload = multer();
 const router = express.Router();
 
 router.post("/register", registerSchoolOwner, register);
@@ -80,5 +81,8 @@ router.put("/student/result/update/:studentId", authMiddleware, updateStudentTer
 router.delete("/student/result/delete/:studentId", authMiddleware, deleteStudentResult);
 router.delete("/student/delete/:studentId", authMiddleware, deleteStudentController);
 router.put("/student/update/:studentId", authMiddleware, updateStudentDetailsController);
+
+
+router.post("/result/bulk-upload", authMiddleware, upload.single('file'), classResultBulkUpload);
 
 export default router;

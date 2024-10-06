@@ -3,12 +3,19 @@ import asyncHandler from "express-async-handler";
 import { StudentModel } from '../../models/studentModel';
 import SchoolModel from '../../models/schoolModel';
 import { ClassModel } from '../../models/classModel';
+import { validateSessionAndTerm } from '../../lib/utils';
 
 // Controller for creating a result
 export const updateStudentTermResult = asyncHandler(async (req:any, res:any) => {
   const schoolId = req.userData.schoolId;
   const {session, term, results } = req.body;
   const {studentId} = req.params
+
+  const sessionAndTermValidation  = validateSessionAndTerm(session, term)
+  
+  if(sessionAndTermValidation){
+    return res.status(404).json({ message: sessionAndTermValidation });
+  }
 
   if (!schoolId) {
     return res.status(404).json({ message: "School id not found" });

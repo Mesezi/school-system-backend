@@ -3,13 +3,18 @@ import asyncHandler from "express-async-handler";
 import { StudentModel } from "../../models/studentModel";
 import SchoolModel from "../../models/schoolModel";
 import { ClassModel } from "../../models/classModel";
+import { validateSessionAndTerm } from "../../lib/utils";
 
 // Controller for creating a result
 export const createStudentResult = asyncHandler(async (req: any, res: any) => {
   const schoolId = req.userData.schoolId;
   const { session, term, comments, results } = req.body;
   const { studentId } = req.params;
-  const validTerms = ["1st", "2nd", "3rd"];
+  const sessionAndTermValidation  = validateSessionAndTerm(session, term)
+  
+  if(sessionAndTermValidation){
+    return res.status(404).json({ message: sessionAndTermValidation });
+  }
 
   if (!schoolId) {
     return res.status(404).json({ message: "School id not found" });
@@ -27,12 +32,6 @@ export const createStudentResult = asyncHandler(async (req: any, res: any) => {
     if (student?.classId === "") {
       return res.status(400).json({
         message: "This student does not belong to a class",
-      });
-    }
-
-    if (!validTerms.includes(term)) {
-      return res.status(400).json({
-        message: `${term} as a term is invalid, must be 1st, 2nd, 3rd`,
       });
     }
 
